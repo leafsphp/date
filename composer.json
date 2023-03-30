@@ -23,8 +23,14 @@
     "autoload": {
         "psr-4": {
             "Leaf\\": "src"
-        }
+        },
+        "files": [
+			"src/functions.php"
+		]
     },
     "minimum-stability": "dev",
-	"prefer-stable": true
+	"prefer-stable": true,
+    "require": {
+        "leafs/alchemy": "^1.0"
+    }
 }
