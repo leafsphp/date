@@ -33,11 +33,17 @@ class Utils
             's' => 's',
             'ss' => 's',
             'SSS' => 'u',
-            'Z' => 'p',
+            'Z' => 'Z',
             'T' => '\T',
         ];
 
         return preg_replace_callback('/\[([^\]]+)]|Y{1,4}|T|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/', function ($match) use ($matches) {
+            if (strpos($match[0], '[') === 0) {
+                return preg_replace_callback('/\[(.*?)\]/', function ($matched) {
+                    return preg_replace("/(.)/", "\\\\$1", $matched[1]);
+                }, $match[0]);
+            }
+
             return $matches[$match[0]] ?? $match[0];
         }, $format);
     }
