@@ -189,4 +189,44 @@ class Date
 	{
 		return $this->fromNow($valueOnly);
 	}
+
+	/**
+	 * Return as PHP DateTime object
+	 */
+	public function toDateTime(): DateTime
+	{
+		return $this->date;
+	}
+
+	/**
+	 * Return as PHP DateTime object
+	 */
+	public function toDateTimeString(): string
+	{
+		return $this->date->format('Y-m-d H:i:s');
+	}
+
+	/**
+	 * Return as PHP DateTime object
+	 */
+	public function toDateString(): string
+	{
+		return $this->date->format('Y-m-d');
+	}
+
+	/**
+	 * Return as PHP DateTime object
+	 */
+	public function toTimeString(): string
+	{
+		return $this->date->format('H:i:s');
+	}
+
+	/**
+	 * Return as PHP DateTime object
+	 */
+	public function toIso8601String(): string
+	{
+		return $this->date->format('Y-m-d\TH:i:sO');
+	}
 }
