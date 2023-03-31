@@ -144,7 +144,7 @@ class Date
 	 */
 	public function from($date = 'now', $valueOnly = false): string
 	{
-		$interval = $this->date->diff(new \DateTime($date));
+		$interval = $this->date->diff(new DateTime(str_replace('/', '-', $date)));
 
 		$years = $interval->format('%y');
 		$months = $interval->format('%m');
@@ -153,13 +153,13 @@ class Date
 		$minutes = $interval->format('%i');
 
 		if ($years > 0) {
-			$relativeDate = $years . ' year' . ($years === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($years > 0 && $months > 0 ? 'and ' : '') . ($months > 0 ? ($months . ' month' . ($months === 1 ? '' : 's')) : ''));
+			$relativeDate = $years . ' year' . ($years === 1 ? '' : 's') . ($valueOnly ? '' : ($years > 0 && $months > 0 ? ' and ' : '') . ($months > 0 ? ($months . ' month' . ($months === 1 ? '' : 's')) : ''));
 		} else if ($months > 0) {
-			$relativeDate = $months . ' month' . ($months === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($months > 0 && $days < 20 ? 'and ' : '') . ($days < 20 ? ($days . ' day' . ($days === 1 ? '' : 's')) : ''));
+			$relativeDate = $months . ' month' . ($months === 1 ? '' : 's') . ($valueOnly ? '' : ($months > 0 && $days < 20 ? ' and ' : '') . ($days < 20 ? ($days . ' day' . ($days === 1 ? '' : 's')) : ''));
 		} else if ($days > 0) {
-			$relativeDate = $days . ' day' . ($days === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($days > 0 && $hours > 0 ? 'and ' : '') . ($hours > 0 ? ($hours . ' hour' . ($hours === 1 ? '' : 's')) : ''));
+			$relativeDate = $days . ' day' . ($days === 1 ? '' : 's') . ($valueOnly ? '' : ($days > 0 && $hours > 0 ? ' and ' : '') . ($hours > 0 ? ($hours . ' hour' . ($hours === 1 ? '' : 's')) : ''));
 		} else if ($hours > 0) {
-			$relativeDate = $hours . ' hour' . ($hours === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($hours > 0 && $minutes > 0 ? 'and ' : '') . ($minutes > 0 ? ($minutes . ' minute' . ($minutes === 1 ? '' : 's')) : ''));
+			$relativeDate = $hours . ' hour' . ($hours === 1 ? '' : 's') . ($valueOnly ? '' : ($hours > 0 && $minutes > 0 ? ' and ' : '') . ($minutes > 0 ? ($minutes . ' minute' . ($minutes === 1 ? '' : 's')) : ''));
 		} else if ($minutes > 0) {
 			$relativeDate = $minutes . ' minute' . ($minutes === 1 ? '' : 's');
 		} else {
@@ -171,7 +171,7 @@ class Date
 		}
 
 		return $relativeDate
-			. ($this->date > new \DateTime() ? ' from now' : ' ago');
+			. ($this->date > new DateTime() ? ' from now' : ' ago');
 	}
 
 	/**
