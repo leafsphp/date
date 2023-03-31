@@ -17,57 +17,75 @@ use Leaf\Date\Utils;
  */
 class Date
 {
-    /**Date entered by a user */
-    protected string $userDate;
+	/**Date entered by a user */
+	protected string $userDate;
 
-    /**Parsed user date */
-    protected string $parsedDate;
+	/**Parsed user date */
+	protected string $parsedDate;
 
-    /**PHP datetime instance */
-    protected DateTime $date;
+	/**PHP datetime instance */
+	protected DateTime $date;
 
-    /**Date format entered by a user */
-    protected string $userFormat;
+	/**Date format entered by a user */
+	protected string $userFormat;
 
-    public function __construct()
-    {
-        $this->tick();
-        $this->format();
-    }
+	public function __construct()
+	{
+		$this->tick();
+		$this->format();
+	}
 
-    /**
-     *
-     */
-    public function tick(string $userDate = 'now', string $userTimeZone = null): Date
-    {
-        $this->userDate = $userDate;
-        $this->date = new DateTime(str_replace('/', '-', $userDate));
+	/**
+	 *
+	 */
+	public function tick(string $userDate = 'now', string $userTimeZone = null): Date
+	{
+		$this->userDate = $userDate;
+		$this->date = new DateTime(str_replace('/', '-', $userDate));
 
-        if ($userTimeZone) {
-            $this->setTimezone($userTimeZone);
-        }
+		if ($userTimeZone) {
+			$this->setTimezone($userTimeZone);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Set default date timezone
-     */
-    public function setTimezone(String $timezone = "Africa/Accra")
-    {
-        $this->date->setTimezone(new \DateTimeZone($timezone));
+	/**
+	 * Set default date timezone
+	 */
+	public function setTimezone(String $timezone = "Africa/Accra")
+	{
+		$this->date->setTimezone(new \DateTimeZone($timezone));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get the formatted date according to the string of tokens passed in.
-     */
-    public function format(string $format = 'c'): string
-    {
-        $this->userFormat = Utils::formatToPHP($format);
-        $this->parsedDate = $this->date->format($this->userFormat);
+	/**
+	 * Add a duration to the current date
+	 */
+	public function add($duration, string $interval = null): Date
+	{
+		$this->date->modify($interval ? "$duration $interval" : $duration);
 
-        return $this->parsedDate;
-    }
+		return $this;
+	}
+
+	/**
+	 * Subtract a duration to the current date
+	 */
+	public function subtract($duration, string $interval = null): Date
+	{
+		return $this->add($interval ? "-$duration $interval" : '-' . $duration);
+	}
+
+	/**
+	 * Get the formatted date according to the string of tokens passed in.
+	 */
+	public function format(string $format = 'c'): string
+	{
+		$this->userFormat = Utils::formatToPHP($format);
+		$this->parsedDate = $this->date->format($this->userFormat);
+
+		return $this->parsedDate;
+	}
 }
