@@ -30,8 +30,13 @@
     },
     "minimum-stability": "dev",
 	"prefer-stable": true,
-    "require": {
-        "leafs/alchemy": "^1.0"
+    "require-dev": {
+        "leafs/alchemy": "^1.0",
+        "friendsofphp/php-cs-fixer": "^3.14"
+    },
+    "scripts": {
+        "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes",
+        "test": "vendor/bin/alchemy run"
     },
     "config": {
         "allow-plugins": {
