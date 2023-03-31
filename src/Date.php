@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Leaf;
 
 use DateTime;
-use Leaf\Date\Utils;
 
 /**
  * Leaf Date
@@ -17,17 +16,8 @@ use Leaf\Date\Utils;
  */
 class Date
 {
-    /**Date entered by a user */
-    protected string $userDate;
-
-    /**Parsed user date */
-    protected string $parsedDate;
-
     /**PHP datetime instance */
     protected DateTime $date;
-
-    /**Date format entered by a user */
-    protected string $userFormat;
 
     public function __construct()
     {
@@ -40,7 +30,6 @@ class Date
      */
     public function tick(string $userDate = 'now', string $userTimeZone = null): Date
     {
-        $this->userDate = $userDate;
         $this->date = new DateTime(str_replace('/', '-', $userDate));
 
         if ($userTimeZone) {
@@ -161,19 +150,17 @@ class Date
 			'T' => '\T',
 		];
 
-        $this->userFormat = preg_replace_callback('/\[([^\]]+)]|Y{1,4}|T|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/', function ($match) use ($matches) {
-			if (strpos($match[0], '[') === 0) {
-				return preg_replace_callback('/\[(.*?)\]/', function ($matched) {
-					return preg_replace("/(.)/", "\\\\$1", $matched[1]);
-				}, $match[0]);
-			}
+        return $this->date->format(
+			preg_replace_callback('/\[([^\]]+)]|Y{1,4}|T|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/', function ($match) use ($matches) {
+				if (strpos($match[0], '[') === 0) {
+					return preg_replace_callback('/\[(.*?)\]/', function ($matched) {
+						return preg_replace("/(.)/", "\\\\$1", $matched[1]);
+					}, $match[0]);
+				}
 
-			return $matches[$match[0]] ?? $match[0];
-		}, $format);
-
-        $this->parsedDate = $this->date->format($this->userFormat);
-
-        return $this->parsedDate;
+				return $matches[$match[0]] ?? $match[0];
+			}, $format)
+		);
     }
 
 	/**
@@ -262,7 +249,7 @@ class Date
 	/**
 	 * Return as PHP DateTime object
 	 */
-	public function toIso8601String(): string
+	public function toIsoString(): string
 	{
 		return $this->date->format('Y-m-d\TH:i:sO');
 	}
