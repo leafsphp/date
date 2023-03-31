@@ -103,6 +103,31 @@ class Date
         return $this;
     }
 
+	/**
+	 * Get the end of a time unit
+	 */
+	public function endOf(string $unit): Date
+	{
+		$units = [
+			'year' => 'Y-12-31 23:59:59',
+			'month' => 'Y-m-t 23:59:59',
+			'week' => 'Y-m-d 23:59:59',
+			'day' => 'Y-m-d 23:59:59',
+			'hour' => 'Y-m-d H:59:59',
+			'minute' => 'Y-m-d H:i:59',
+			'second' => 'Y-m-d H:i:s',
+		];
+
+		$this->date->modify(date(
+			$units[$unit],
+			$unit === 'week' ?
+				date_add(date_create(date('Y-m-d', strtotime("this week", $this->date->getTimestamp()))), date_interval_create_from_date_string('6 days'))->getTimestamp() :
+				$this->date->getTimestamp()
+		));
+
+		return $this;
+	}
+
     /**
      * Get the formatted date according to the string of tokens passed in.
      */
