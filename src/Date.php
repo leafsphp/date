@@ -140,11 +140,11 @@ class Date
     }
 
 	/**
-	 * Returns the string of relative time from now.
+	 * Returns the string of relative time from a date.
 	 */
-	public function fromNow($valueOnly = false): string
+	public function from($date = 'now', $valueOnly = false): string
 	{
-		$interval = $this->date->diff(new \DateTime());
+		$interval = $this->date->diff(new \DateTime($date));
 
 		$years = $interval->format('%y');
 		$months = $interval->format('%m');
@@ -157,9 +157,9 @@ class Date
 		} else if ($months > 0) {
 			$relativeDate = $months . ' month' . ($months === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($months > 0 && $days < 20 ? 'and ' : '') . ($days < 20 ? ($days . ' day' . ($days === 1 ? '' : 's')) : ''));
 		} else if ($days > 0) {
-			$relativeDate = $days . ' day' . ($days === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($days > 0 && $hours < 12 ? 'and ' : '') . ($hours < 12 ? ($hours . ' hour' . ($hours === 1 ? '' : 's')) : ''));
+			$relativeDate = $days . ' day' . ($days === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($days > 0 && $hours > 0 ? 'and ' : '') . ($hours > 0 ? ($hours . ' hour' . ($hours === 1 ? '' : 's')) : ''));
 		} else if ($hours > 0) {
-			$relativeDate = $hours . ' hour' . ($hours === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($hours > 0 && $minutes < 30 ? 'and ' : '') . ($minutes < 30 ? ($minutes . ' minute' . ($minutes === 1 ? '' : 's')) : ''));
+			$relativeDate = $hours . ' hour' . ($hours === 1 ? '' : 's') . ($valueOnly ? '' : ' ' . ($hours > 0 && $minutes > 0 ? 'and ' : '') . ($minutes > 0 ? ($minutes . ' minute' . ($minutes === 1 ? '' : 's')) : ''));
 		} else if ($minutes > 0) {
 			$relativeDate = $minutes . ' minute' . ($minutes === 1 ? '' : 's');
 		} else {
@@ -170,62 +170,23 @@ class Date
 			return $relativeDate;
 		}
 
-		if ($interval->invert) {
-			return 'in ' . $relativeDate;
-		}
-
-		return $relativeDate . ' ago';
+		return $relativeDate
+			. ($this->date > new \DateTime() ? ' from now' : ' ago');
 	}
 
 	/**
 	 * Returns the string of relative time from now.
 	 */
-	public function toNow(): string
+	public function fromNow($valueOnly = false): string
 	{
-		return $this->fromNow();
+		return $this->from('now', $valueOnly);
 	}
 
 	/**
 	 * Returns the string of relative time from now.
 	 */
-	public function ago(): string
+	public function toNow($valueOnly = false): string
 	{
-		return $this->fromNow();
+		return $this->fromNow($valueOnly);
 	}
-
-	/**
-	 * Returns the string of relative time from now.
-	 */
-	public function to(): string
-	{
-		return $this->fromNow();
-	}
-
-	/**
-	 * Returns the string of relative time from now.
-	 */
-	public function from(): string
-	{
-		return $this->fromNow();
-	}
-
-	/**
-	 * Returns the string of relative time from now.
-	 */
-	public function since(): string
-	{
-		return $this->fromNow();
-	}
-
-	/**
-	 * Returns the string of relative time from now.
-	 */
-	public function until(): string
-	{
-		return $this->fromNow();
-	}
-
-	/**
-	 * Returns the string of relative time from now.
-	 */
 }
