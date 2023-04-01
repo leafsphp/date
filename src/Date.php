@@ -16,81 +16,81 @@ use DateTime;
  */
 class Date
 {
-    /**PHP datetime instance */
-    protected DateTime $date;
+	/**PHP datetime instance */
+	protected DateTime $date;
 
-    public function __construct()
-    {
-        $this->tick();
-        $this->format();
-    }
+	public function __construct()
+	{
+		$this->tick();
+		$this->format();
+	}
 
-    /**
-     *
-     */
-    public function tick(string $userDate = 'now', string $userTimeZone = null): Date
-    {
-        $this->date = new DateTime(str_replace('/', '-', $userDate));
+	/**
+	 *
+	 */
+	public function tick(string $userDate = 'now', string $userTimeZone = null): Date
+	{
+		$this->date = new DateTime(str_replace('/', '-', $userDate));
 
-        if ($userTimeZone) {
-            $this->setTimezone($userTimeZone);
-        }
+		if ($userTimeZone) {
+			$this->setTimezone($userTimeZone);
+		}
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Set default date timezone
-     */
-    public function setTimezone(String $timezone = "Africa/Accra")
-    {
-        $this->date->setTimezone(new \DateTimeZone($timezone));
+	/**
+	 * Set default date timezone
+	 */
+	public function setTimezone(String $timezone = "Africa/Accra")
+	{
+		$this->date->setTimezone(new \DateTimeZone($timezone));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Add a duration to the current date
-     */
-    public function add($duration, string $interval = null): Date
-    {
-        $this->date->modify($interval ? "$duration $interval" : $duration);
+	/**
+	 * Add a duration to the current date
+	 */
+	public function add($duration, string $interval = null): Date
+	{
+		$this->date->modify($interval ? "$duration $interval" : $duration);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Subtract a duration to the current date
-     */
-    public function subtract($duration, string $interval = null): Date
-    {
-        return $this->add($interval ? "-$duration $interval" : '-' . $duration);
-    }
+	/**
+	 * Subtract a duration to the current date
+	 */
+	public function subtract($duration, string $interval = null): Date
+	{
+		return $this->add($interval ? "-$duration $interval" : '-' . $duration);
+	}
 
-    /**
-     * Get the start of a time unit
-     */
-    public function startOf(string $unit): Date
-    {
-        $units = [
-            'year' => 'Y-01-01 00:00:00',
-            'month' => 'Y-m-01 00:00:00',
-            'week' => 'Y-m-d 00:00:00',
-            'day' => 'Y-m-d 00:00:00',
-            'hour' => 'Y-m-d H:00:00',
-            'minute' => 'Y-m-d H:i:00',
-            'second' => 'Y-m-d H:i:s',
-        ];
+	/**
+	 * Get the start of a time unit
+	 */
+	public function startOf(string $unit): Date
+	{
+		$units = [
+			'year' => 'Y-01-01 00:00:00',
+			'month' => 'Y-m-01 00:00:00',
+			'week' => 'Y-m-d 00:00:00',
+			'day' => 'Y-m-d 00:00:00',
+			'hour' => 'Y-m-d H:00:00',
+			'minute' => 'Y-m-d H:i:00',
+			'second' => 'Y-m-d H:i:s',
+		];
 
-        $this->date->modify(date(
-            $units[$unit],
-            $unit === 'week' ?
-                strtotime("this week", $this->date->getTimestamp()) :
-                $this->date->getTimestamp()
-        ));
+		$this->date->modify(date(
+			$units[$unit],
+			$unit === 'week' ?
+				strtotime("this week", $this->date->getTimestamp()) :
+				$this->date->getTimestamp()
+		));
 
-        return $this;
-    }
+		return $this;
+	}
 
 	/**
 	 * Get the end of a time unit
@@ -141,11 +141,29 @@ class Date
 		return $this;
 	}
 
-    /**
-     * Get the formatted date according to the string of tokens passed in.
-     */
-    public function format(string $format = 'c'): string
-    {
+	/**
+	 * String getter, returns the corresponding information getting from the date instance.
+	 */
+	public function get(string $unit): string
+	{
+		$englishUnits = [
+			'year' => 'Y',
+			'month' => 'M',
+			'day' => 'D',
+			'hour' => 'H',
+			'minute' => 'm',
+			'second' => 's',
+			'millisecond' => 'u',
+		];
+
+		return $this->format($englishUnits[$unit] ?? $unit);
+	}
+
+	/**
+	 * Get the formatted date according to the string of tokens passed in.
+	 */
+	public function format(string $format = 'c'): string
+	{
 		$matches = [
 			'YY' => 'y',
 			'YYYY' => 'Y',
@@ -174,7 +192,7 @@ class Date
 			'T' => '\T',
 		];
 
-        return $this->date->format(
+		return $this->date->format(
 			preg_replace_callback('/\[([^\]]+)]|Y{1,4}|T|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/', function ($match) use ($matches) {
 				if (strpos($match[0], '[') === 0) {
 					return preg_replace_callback('/\[(.*?)\]/', function ($matched) {
@@ -185,7 +203,7 @@ class Date
 				return $matches[$match[0]] ?? $match[0];
 			}, $format)
 		);
-    }
+	}
 
 	/**
 	 * Returns the string of relative time from a date.
