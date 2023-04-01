@@ -160,6 +160,76 @@ class Date
 	}
 
 	/**
+	 * Gets or sets the millisecond
+	 * 
+	 * @return Date|int
+	 */
+	public function millisecond(int $value = null)
+	{
+		return $value ? $this->set('millisecond', $value) : (int) $this->get('millisecond');
+	}
+
+	/**
+	 * Gets or sets the second
+	 * 
+	 * @return Date|int
+	 */
+	public function second(int $value = null)
+	{
+		return $value ? $this->set('second', $value) : (int) $this->get('second');
+	}
+
+	/**
+	 * Gets or sets the minute
+	 * 
+	 * @return Date|int
+	 */
+	public function minute(int $value = null)
+	{
+		return $value ? $this->set('minute', $value) : (int) $this->get('minute');
+	}
+
+	/**
+	 * Gets or sets the hour
+	 * 
+	 * @return Date|int
+	 */
+	public function hour(int $value = null)
+	{
+		return $value ? $this->set('hour', $value) : (int) $this->get('hour');
+	}
+
+	/**
+	 * Gets or sets the day
+	 * 
+	 * @return Date|int
+	 */
+	public function day(int $value = null)
+	{
+		return $value ? $this->set('day', $value) : (int) $this->get('day');
+	}
+
+	/**
+	 * Gets or sets the month
+	 * 
+	 * @return Date|int
+	 */
+	public function month(int $value = null)
+	{
+		return $value ? $this->set('month', $value) : (int) $this->get('month');
+	}
+
+	/**
+	 * Gets or sets the year
+	 * 
+	 * @return Date|int
+	 */
+	public function year(int $value = null)
+	{
+		return $value ? $this->set('year', $value) : (int) $this->get('year');
+	}
+
+	/**
 	 * Get the formatted date according to the string of tokens passed in.
 	 */
 	public function format(string $format = 'c'): string
