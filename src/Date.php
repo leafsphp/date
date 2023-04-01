@@ -117,6 +117,30 @@ class Date
 		return $this;
 	}
 
+	/**
+	 * Generic setter, accepting unit as first argument, and value as second, returns a new instance with the applied changes.
+	 */
+	public function set(string $unit, int $value): Date
+	{
+		if ($unit === 'date' || $unit === 'month' || $unit === 'year') {
+			$this->date->setDate(
+				$unit === 'year' ? (int) $value : (int) $this->date->format('Y'),
+				$unit === 'month' ? (int) $value : (int) $this->date->format('m'),
+				$unit === 'day' ? (int) $value : (int) $this->date->format('d')
+			);
+		}
+
+		if ($unit === 'hour' || $unit === 'minute' || $unit === 'second') {
+			$this->date->setTime(
+				$unit === 'hour' ? (int) $value : (int) $this->date->format('H'),
+				$unit === 'minute' ? (int) $value : (int) $this->date->format('i'),
+				$unit === 'second' ? (int) $value : (int) $this->date->format('s')
+			);
+		}
+
+		return $this;
+	}
+
     /**
      * Get the formatted date according to the string of tokens passed in.
      */
