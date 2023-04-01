@@ -26,7 +26,15 @@ class Date
     }
 
     /**
-     *
+     * Get the current date
+     */
+    public function now(): string
+    {
+        return $this->format();
+    }
+
+    /**
+     * Base method for all date/time operations
      */
     public function tick(string $userDate = 'now', string $userTimeZone = null): Date
     {
