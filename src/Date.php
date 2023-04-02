@@ -36,9 +36,9 @@ class Date
     /**
      * Base method for all date/time operations
      */
-    public function tick(string $userDate = 'now', string $userTimeZone = null): Date
+    public function tick($userDate = 'now', string $userTimeZone = null): Date
     {
-        $this->date = new DateTime(str_replace('/', '-', $userDate));
+        $this->date = ($userDate instanceof DateTime ? $userDate : new DateTime(str_replace('/', '-', $userDate)));
 
         if ($userTimeZone) {
             $this->setTimezone($userTimeZone);
@@ -419,7 +419,7 @@ class Date
 	 */
 	public function isSameDay($date = 'now'): bool
 	{
-		return $this->date->format('Y-m-d') == ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m-d');
+		return $this->date->format('Y-m-d') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m-d');
 	}
 
 	/**
@@ -427,7 +427,7 @@ class Date
 	 */
 	public function isSameMonth($date = 'now'): bool
 	{
-		return $this->date->format('Y-m') == ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m');
+		return $this->date->format('Y-m') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m');
 	}
 
 	/**
@@ -435,7 +435,7 @@ class Date
 	 */
 	public function isSameYear($date = 'now'): bool
 	{
-		return $this->date->format('Y') == ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y');
+		return $this->date->format('Y') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y');
 	}
 
 	/**
