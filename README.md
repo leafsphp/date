@@ -27,7 +27,7 @@
 <br />
 <br />
 
-Tick is a minimalist PHP library that parses, validates, manipulates, and displays dates and times with a largely DayJs/MomentJS-compatible API. If you use DayJS, you already know how to use Tick.
+Tick is a minimalist PHP library that parses, validates, manipulates, and displays dates and times with a largely DayJS/MomentJS-compatible API. If you use DayJS, you already know how to use Tick.
 
 ```php
 tick()->now(); // get the current timestamp
