@@ -60,5 +60,5 @@ tick('2018-08-08') // parse
 tick()->format('{YYYY} MM-DDTHH:mm:ss SSS [Z] A') // display
 tick()->set('month', 3)->month() // get & set
 tick()->add(1, 'year') // manipulate
-tick()->isBefore(tick()) // query
+tick()->isBefore('...') // query
 ```
