@@ -382,75 +382,75 @@ class Date
         return $this->date < ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)));
     }
 
-	/**
-	 * This indicates whether the date object is after the other supplied date-time.
-	 */
-	public function isAfter($date): bool
-	{
-		return !$this->isBefore($date) && !$this->isSame($date);
-	}
+    /**
+     * This indicates whether the date object is after the other supplied date-time.
+     */
+    public function isAfter($date): bool
+    {
+        return !$this->isBefore($date) && !$this->isSame($date);
+    }
 
-	/**
-	 * This indicates whether the date object is between the other supplied date-time.
-	 */
-	public function isBetween($date1 = 'now', $date2 = 'now'): bool
-	{
-		return $this->isAfter($date1) && $this->isBefore($date2);
-	}
+    /**
+     * This indicates whether the date object is between the other supplied date-time.
+     */
+    public function isBetween($date1 = 'now', $date2 = 'now'): bool
+    {
+        return $this->isAfter($date1) && $this->isBefore($date2);
+    }
 
-	/**
-	 * This indicates whether the date object is between the other supplied date-time.
-	 */
-	public function isBetweenOrEqual($date1 = 'now', $date2 = 'now'): bool
-	{
-		return $this->isAfter($date1) && $this->isBefore($date2) || $this->isSame($date1) || $this->isSame($date2);
-	}
+    /**
+     * This indicates whether the date object is between the other supplied date-time.
+     */
+    public function isBetweenOrEqual($date1 = 'now', $date2 = 'now'): bool
+    {
+        return $this->isAfter($date1) && $this->isBefore($date2) || $this->isSame($date1) || $this->isSame($date2);
+    }
 
-	/**
-	 * This indicates whether the date object is the same as the other supplied date-time.
-	 */
-	public function isSame($date = 'now'): bool
-	{
-		return $this->date == ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)));
-	}
+    /**
+     * This indicates whether the date object is the same as the other supplied date-time.
+     */
+    public function isSame($date = 'now'): bool
+    {
+        return $this->date == ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)));
+    }
 
-	/**
-	 * This indicates whether the date object is the same as the other supplied date-time.
-	 */
-	public function isSameDay($date = 'now'): bool
-	{
-		return $this->date->format('Y-m-d') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m-d');
-	}
+    /**
+     * This indicates whether the date object is the same as the other supplied date-time.
+     */
+    public function isSameDay($date = 'now'): bool
+    {
+        return $this->date->format('Y-m-d') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m-d');
+    }
 
-	/**
-	 * This indicates whether the date object is the same as the other supplied date-time.
-	 */
-	public function isSameMonth($date = 'now'): bool
-	{
-		return $this->date->format('Y-m') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m');
-	}
+    /**
+     * This indicates whether the date object is the same as the other supplied date-time.
+     */
+    public function isSameMonth($date = 'now'): bool
+    {
+        return $this->date->format('Y-m') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m');
+    }
 
-	/**
-	 * This indicates whether the date object is the same as the other supplied date-time.
-	 */
-	public function isSameYear($date = 'now'): bool
-	{
-		return $this->date->format('Y') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y');
-	}
+    /**
+     * This indicates whether the date object is the same as the other supplied date-time.
+     */
+    public function isSameYear($date = 'now'): bool
+    {
+        return $this->date->format('Y') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y');
+    }
 
-	/**
-	 * This indicates whether the date object is a leap year.
-	 */
-	public function isLeapYear(): bool
-	{
-		return (int) $this->date->format('L') === 1;
-	}
+    /**
+     * This indicates whether the date object is a leap year.
+     */
+    public function isLeapYear(): bool
+    {
+        return (int) $this->date->format('L') === 1;
+    }
 
-	/**
-	 * This indicates whether the date object is a datetime
-	 */
-	public function isDateTime($date): bool
-	{
-		return $date instanceof DateTime;
-	}
+    /**
+     * This indicates whether the date object is a datetime
+     */
+    public function isDateTime($date): bool
+    {
+        return $date instanceof DateTime;
+    }
 }
