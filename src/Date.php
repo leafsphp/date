@@ -36,7 +36,7 @@ class Date
     /**
      * Base method for all date/time operations
      */
-    public function tick($userDate = 'now', string $userTimeZone = null): Date
+    public function tick(string $userDate = 'now', ?string $userTimeZone = null): Date
     {
         $this->date = ($userDate instanceof DateTime ? $userDate : new DateTime(str_replace('/', '-', $userDate)));
 
@@ -60,7 +60,7 @@ class Date
     /**
      * Add a duration to the current date
      */
-    public function add($duration, string $interval = null): Date
+    public function add(string $duration, ?string $interval = null): Date
     {
         $this->date->modify($interval ? "$duration $interval" : $duration);
 
@@ -70,7 +70,7 @@ class Date
     /**
      * Subtract a duration to the current date
      */
-    public function subtract($duration, string $interval = null): Date
+    public function subtract(string $duration, ?string $interval = null): Date
     {
         return $this->add($interval ? "-$duration $interval" : '-' . $duration);
     }
@@ -172,7 +172,7 @@ class Date
      *
      * @return Date|int
      */
-    public function millisecond(int $value = null)
+    public function millisecond(?int $value = null)
     {
         return $value ? $this->set('millisecond', $value) : (int) $this->get('millisecond');
     }
@@ -182,7 +182,7 @@ class Date
      *
      * @return Date|int
      */
-    public function second(int $value = null)
+    public function second(?int $value = null)
     {
         return $value ? $this->set('second', $value) : (int) $this->get('second');
     }
@@ -192,7 +192,7 @@ class Date
      *
      * @return Date|int
      */
-    public function minute(int $value = null)
+    public function minute(?int $value = null)
     {
         return $value ? $this->set('minute', $value) : (int) $this->get('minute');
     }
@@ -202,7 +202,7 @@ class Date
      *
      * @return Date|int
      */
-    public function hour(int $value = null)
+    public function hour(?int $value = null)
     {
         return $value ? $this->set('hour', $value) : (int) $this->get('hour');
     }
@@ -212,7 +212,7 @@ class Date
      *
      * @return Date|int
      */
-    public function day(int $value = null)
+    public function day(?int $value = null)
     {
         return $value ? $this->set('day', $value) : (int) $this->get('day');
     }
@@ -222,7 +222,7 @@ class Date
      *
      * @return Date|int
      */
-    public function month(int $value = null)
+    public function month(?int $value = null)
     {
         return $value ? $this->set('month', $value) : (int) $this->get('month');
     }
@@ -232,7 +232,7 @@ class Date
      *
      * @return Date|int
      */
-    public function year(int $value = null)
+    public function year(?int $value = null)
     {
         return $value ? $this->set('year', $value) : (int) $this->get('year');
     }
@@ -286,7 +286,7 @@ class Date
     /**
      * Returns the string of relative time from a date.
      */
-    public function from($date = 'now', $valueOnly = false): string
+    public function from(string $date = 'now', bool $valueOnly = false): string
     {
         $interval = $this->date->diff(new DateTime(str_replace('/', '-', $date)));
 
@@ -321,7 +321,7 @@ class Date
     /**
      * Returns the string of relative time from now.
      */
-    public function fromNow($valueOnly = false): string
+    public function fromNow(bool $valueOnly = false): string
     {
         return $this->from('now', $valueOnly);
     }
@@ -329,7 +329,7 @@ class Date
     /**
      * Returns the string of relative time from now.
      */
-    public function toNow($valueOnly = false): string
+    public function toNow(bool $valueOnly = false): string
     {
         return $this->fromNow($valueOnly);
     }
@@ -377,7 +377,7 @@ class Date
     /**
      * This indicates whether the date object is before the other supplied date-time.
      */
-    public function isBefore($date): bool
+    public function isBefore(DateTime|string $date): bool
     {
         return $this->date < ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)));
     }
@@ -385,7 +385,7 @@ class Date
     /**
      * This indicates whether the date object is after the other supplied date-time.
      */
-    public function isAfter($date): bool
+    public function isAfter(DateTime|string $date): bool
     {
         return !$this->isBefore($date) && !$this->isSame($date);
     }
@@ -393,7 +393,7 @@ class Date
     /**
      * This indicates whether the date object is between the other supplied date-time.
      */
-    public function isBetween($date1 = 'now', $date2 = 'now'): bool
+    public function isBetween(DateTime|string $date1 = 'now', DateTime|string $date2 = 'now'): bool
     {
         return $this->isAfter($date1) && $this->isBefore($date2);
     }
@@ -401,7 +401,7 @@ class Date
     /**
      * This indicates whether the date object is between the other supplied date-time.
      */
-    public function isBetweenOrEqual($date1 = 'now', $date2 = 'now'): bool
+    public function isBetweenOrEqual(DateTime|string $date1 = 'now', DateTime|string $date2 = 'now'): bool
     {
         return $this->isAfter($date1) && $this->isBefore($date2) || $this->isSame($date1) || $this->isSame($date2);
     }
@@ -409,7 +409,7 @@ class Date
     /**
      * This indicates whether the date object is the same as the other supplied date-time.
      */
-    public function isSame($date = 'now'): bool
+    public function isSame(DateTime|string $date = 'now'): bool
     {
         return $this->date == ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)));
     }
@@ -417,7 +417,7 @@ class Date
     /**
      * This indicates whether the date object is the same as the other supplied date-time.
      */
-    public function isSameDay($date = 'now'): bool
+    public function isSameDay(DateTime|string $date = 'now'): bool
     {
         return $this->date->format('Y-m-d') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m-d');
     }
@@ -425,7 +425,7 @@ class Date
     /**
      * This indicates whether the date object is the same as the other supplied date-time.
      */
-    public function isSameMonth($date = 'now'): bool
+    public function isSameMonth(DateTime|string $date = 'now'): bool
     {
         return $this->date->format('Y-m') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y-m');
     }
@@ -433,7 +433,7 @@ class Date
     /**
      * This indicates whether the date object is the same as the other supplied date-time.
      */
-    public function isSameYear($date = 'now'): bool
+    public function isSameYear(DateTime|string $date = 'now'): bool
     {
         return $this->date->format('Y') === ($date instanceof DateTime ? $date : new DateTime(str_replace('/', '-', $date)))->format('Y');
     }
@@ -449,7 +449,7 @@ class Date
     /**
      * This indicates whether the date object is a datetime
      */
-    public function isDateTime($date): bool
+    public function isDateTime(mixed $date): bool
     {
         return $date instanceof DateTime;
     }
