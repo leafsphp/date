@@ -72,7 +72,7 @@ class Date
      */
     public function subtract(string $duration, ?string $interval = null): Date
     {
-        return $this->add($interval ? "-$duration $interval" : '-' . $duration);
+        return $this->add($interval ? "-$duration $interval" : "-$duration");
     }
 
     /**
