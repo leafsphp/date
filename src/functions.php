@@ -5,7 +5,6 @@ declare(strict_types=1);
 if (!function_exists('tick')) {
     /**
      * Return the leaf date instance
-     *
      * @return Leaf\Date
      */
     function tick(?string $userDate = null, ?string $userTimeZone = null)
