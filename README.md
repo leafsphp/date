@@ -72,7 +72,6 @@ echo $futureDate->format('YYYY-MM-DD'); // 2025-06-29
 
 - **🔄 Familiar API** - If you know Day.js or Moment.js, you already know Tick
 - **🪶 Lightweight** - No heavy dependencies, just pure PHP goodness
-- **⚡ Immutable & Chainable** - All operations return a new Tick instance
 - **🔌 Native Integration** - Seamless integration with PHP's DateTime objects
 - **🌐 Timezone Support** - Work with dates across different timezones effortlessly
 - **📊 Date Comparison** - Easily compare dates with intuitive methods
