@@ -39,7 +39,7 @@ class Date
      * @param string|null $userTimeZone The timezone to initialize with
      * @return Date
      */
-    public function tick($userDate = 'now', ?string $userTimeZone = null): static
+    public function tick($userDate = 'now', ?string $userTimeZone = null): Date
     {
         if ($userDate instanceof DateTime) {
             $this->date = $userDate;
@@ -62,7 +62,7 @@ class Date
      * @throws \Exception Invalid timezone selection
      * @return Date
      */
-    public function setTimezone(string $timezone = 'Africa/Accra'): static
+    public function setTimezone(string $timezone = 'Africa/Accra'): Date
     {
         if (!$timezone = new \DateTimeZone($timezone)) {
             throw new \Exception('Invalid timezone selection');
@@ -79,7 +79,7 @@ class Date
      * @param string|null The interval to add
      * @return Date
      */
-    public function add($duration, ?string $interval = null): static
+    public function add($duration, ?string $interval = null): Date
     {
         $this->date->modify($interval ? "$duration $interval" : $duration);
 
@@ -92,7 +92,7 @@ class Date
      * @param string|null The interval to subtract
      * @return Date
      */
-    public function subtract($duration, ?string $interval = null): static
+    public function subtract($duration, ?string $interval = null): Date
     {
         return $this->add($interval ? "-$duration $interval" : "-$duration");
     }
@@ -103,7 +103,7 @@ class Date
      * @return Date
      * @throws \Exception Invalid time unit
      */
-    public function startOf(string $unit): static
+    public function startOf(string $unit): Date
     {
         $units = [
             'year' => 'Y-01-01 00:00:00',
@@ -131,7 +131,7 @@ class Date
      * @return Date
      * @throws \Exception Invalid time unit
      */
-    public function endOf(string $unit): static
+    public function endOf(string $unit): Date
     {
         $units = [
             'year' => 'Y-12-31 23:59:59',
@@ -160,7 +160,7 @@ class Date
      * @return Date
      * @throws \Exception Invalid time unit
      */
-    public function set(string $unit, int $value): static
+    public function set(string $unit, int $value): Date
     {
         if ($unit === 'date' || $unit === 'month' || $unit === 'year') {
             $this->date->setDate(
