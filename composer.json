@@ -32,7 +32,8 @@
     "prefer-stable": true,
     "require-dev": {
         "leafs/alchemy": "^4.0",
-        "friendsofphp/php-cs-fixer": "^3.14"
+        "friendsofphp/php-cs-fixer": "^3.14",
+        "pestphp/pest": "*"
     },
     "scripts": {
         "format": "vendor/bin/php-cs-fixer fix --config=.php_cs.dist.php --allow-risky=yes",
