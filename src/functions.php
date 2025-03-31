@@ -5,7 +5,7 @@ declare(strict_types=1);
 if (!function_exists('tick')) {
     /**
      * Initialize a new date instance
-     * @param string|DateTime $userDate The date to initialize with
+     * @param string|DateTime|\Leaf\Date $userDate The date to initialize with
      * @param string|null $userTimeZone The timezone to initialize with
      * @return \Leaf\Date
      */
