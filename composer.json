@@ -25,11 +25,11 @@
             "Leaf\\": "src"
         },
         "files": [
-			"src/functions.php"
-		]
+            "src/functions.php"
+        ]
     },
     "minimum-stability": "dev",
-	"prefer-stable": true,
+    "prefer-stable": true,
     "require-dev": {
         "leafs/alchemy": "^1.0",
         "friendsofphp/php-cs-fixer": "^3.14"
@@ -41,6 +41,11 @@
     "config": {
         "allow-plugins": {
             "pestphp/pest-plugin": true
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-v5.x": "5.0.x-dev"
         }
     }
 }
