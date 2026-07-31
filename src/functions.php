@@ -4,27 +4,13 @@ declare(strict_types=1);
 
 if (!function_exists('tick')) {
     /**
-     * Return the leaf date instance
-     *
-     * @return Leaf\Date
+     * Initialize a new date instance
+     * @param string|DateTime|\Leaf\Date $userDate The date to initialize with
+     * @param string|null $userTimeZone The timezone to initialize with
+     * @return \Leaf\Date
      */
-    function tick(string $userDate = null, string $userTimeZone = null)
+    function tick($userDate = 'now', ?string $userTimeZone = null): \Leaf\Date
     {
-        if (!class_exists('Leaf\App')) {
-            return (new Leaf\Date())->tick($userDate, $userTimeZone);
-        }
-
-        $date = Leaf\Config::get('date')['instance'] ?? null;
-
-        if (!$date) {
-            $date = new Leaf\Date();
-            Leaf\Config::set('date', ['instance' => $date]);
-        }
-
-        if ($userDate) {
-            $date->tick($userDate, $userTimeZone);
-        }
-
-        return $date;
+        return (new Leaf\Date())->tick($userDate, $userTimeZone);
     }
 }
