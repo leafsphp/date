@@ -46,10 +46,20 @@ class Date
         } elseif ($userDate instanceof Date) {
             $this->date = $userDate->toDateTime();
         } else {
-            $this->date = new DateTime(str_replace('/', '-', $userDate));
+            // dayjs semantics: a timezone passed at construction means the
+            // date string is a wall-clock time IN that zone. To convert an
+            // existing date to another zone, use tz()/setTimezone() instead.
+            $this->date = new DateTime(
+                str_replace('/', '-', $userDate),
+                $userTimeZone ? new \DateTimeZone($userTimeZone) : null
+            );
+
+            return $this;
         }
 
         if ($userTimeZone) {
+            // object inputs are already a fixed instant, so a timezone
+            // here can only mean "display in this zone"
             $this->setTimezone($userTimeZone);
         }
 
@@ -71,6 +81,42 @@ class Date
         $this->date->setTimezone($timezone);
 
         return $this;
+    }
+
+    /**
+     * Get or convert the timezone, dayjs style.
+     *
+     * `tick()->tz('Asia/Tokyo')` converts the date to Tokyo time,
+     * `tick()->tz()` returns the current timezone name.
+     *
+     * @param string|null $timezone Timezone name, offset (+0200) or abbreviation (BST)
+     * @return Date|string
+     */
+    public function tz(?string $timezone = null)
+    {
+        if ($timezone === null) {
+            return $this->date->getTimezone()->getName();
+        }
+
+        return $this->setTimezone($timezone);
+    }
+
+    /**
+     * Convert the date to UTC
+     * @return Date
+     */
+    public function utc(): Date
+    {
+        return $this->setTimezone('UTC');
+    }
+
+    /**
+     * Get the UTC offset of the current date in minutes, dayjs style.
+     * @return int
+     */
+    public function utcOffset(): int
+    {
+        return (int) ($this->date->getOffset() / 60);
     }
 
     /**
@@ -310,7 +356,7 @@ class Date
             preg_replace_callback('/\[([^\]]+)]|Y{1,4}|T|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/', function ($match) use ($matches) {
                 if (strpos($match[0], '[') === 0) {
                     return preg_replace_callback('/\[(.*?)\]/', function ($matched) {
-                        return preg_replace("/(.)/", "\\\\$1", $matched[1]);
+                        return preg_replace('/(.)/', '\\\$1', $matched[1]);
                     }, $match[0]);
                 }
 
