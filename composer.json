@@ -31,8 +31,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "leafs/alchemy": "v5.x-dev",
-        "friendsofphp/php-cs-fixer": "^3.66",
+        "leafs/alchemy": "^5.0",
+        "friendsofphp/php-cs-fixer": "*",
         "pestphp/pest": "*"
     },
     "scripts": {
