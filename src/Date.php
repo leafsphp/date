@@ -479,6 +479,44 @@ class Date
     }
 
     /**
+     * Difference between this date and another, as a whole number.
+     * Follows dayjs semantics: positive when this date is after the
+     * supplied date, negative when before, truncated toward zero.
+     * Days and months are calendar-aware, so a booking's night count
+     * survives DST boundaries.
+     *
+     * @param string|DateTime|Date $date The date to diff against
+     * @param string $unit years|months|days|hours|minutes|seconds
+     * @return int
+     */
+    public function diff($date = 'now', string $unit = 'seconds'): int
+    {
+        if ($date instanceof Date) {
+            $date = $date->toDateTime();
+        } elseif (!($date instanceof DateTime)) {
+            $date = new DateTime(str_replace('/', '-', $date));
+        }
+
+        $interval = $date->diff($this->date);
+        $sign = $interval->invert === 1 ? -1 : 1;
+
+        switch (rtrim(strtolower($unit), 's')) {
+            case 'year':
+                return $sign * (int) $interval->y;
+            case 'month':
+                return $sign * ((int) $interval->y * 12 + (int) $interval->m);
+            case 'day':
+                return $sign * (int) $interval->days;
+            case 'hour':
+                return intdiv($this->date->getTimestamp() - $date->getTimestamp(), 3600);
+            case 'minute':
+                return intdiv($this->date->getTimestamp() - $date->getTimestamp(), 60);
+            default:
+                return $this->date->getTimestamp() - $date->getTimestamp();
+        }
+    }
+
+    /**
      * This indicates whether the date object is before the other supplied date-time.
      * @param string|DateTime|Date $date The date to compare to
      * @return bool
